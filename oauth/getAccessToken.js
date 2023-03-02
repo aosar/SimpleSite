@@ -9,11 +9,13 @@ const fs = require('fs');
 const isVerbose = process.argv[2] === '-v' || process.argv[2] === '--verbose';
 const noCache = process.argv[2] === '-nc' || process.argv[2] === '--no-cache';
 
+const scope = oAuthConfig.scope || oAuthConfig.scopes.join(' ') || 'https://graph.microsoft.com/.default';
+
 const clientCredentials = {
     client_id: oAuthConfig.clientId,
     client_secret: oAuthConfig.clientSecret,
-    grant_type: oAuthConfig.grant_type || 'client_credentials',
-    scope: oAuthConfig.scope || 'https://graph.microsoft.com/.default',
+    grant_type: oAuthConfig.grantType || 'client_credentials',
+    scope
 };
 
 // Build request body (needs to be encoded)

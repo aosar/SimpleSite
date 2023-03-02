@@ -15,8 +15,7 @@ Arguments:
 - `-nc` or `--no-cache` to disable caching and only log token to console
 - `name` or `--name` to fetch a specific config as defined in an array
 
-
-## Sample Config File
+## Sample Config File (UIUC Tenant)
 `config.json`
 ```json
 {
@@ -24,23 +23,30 @@ Arguments:
     "name": "archibus",
     "clientId": "",
     "clientSecret": "",
-    "redirectUri": "http://localhost:3000/exampleCallback",
     "accessTokenUri": "https://login.microsoftonline.com/44467e6f-462c-4ea2-823f-7800de5434e3/oauth2/v2.0/token",
-    "authorizationUri": "https://login.microsoftonline.com/44467e6f-462c-4ea2-823f-7800de5434e3/oauth2/v2.0/authorize",
-    "scope": "openid profile email offline_access",
     "resource": "https://graph.microsoft.com"
   },
-  "oAuthConfigs": [
-    // list of configs  
-  ]
 }
 ```
 Optional:
-- `name`
-- `redirectUri` - if not using Authorization Code flow
-- `scope`
+- `name` - used in the program if using multiple configs
+- `scope` - takes precedence over `scopes`. Defaults to `.default`.
+- `scopes` - array of scopes
 - `resource`
-- `authorizationUri` - if not using Authorization Code flow
 
+Needed for autorization token flow:
+- `redirectUri`
+- `authorizationUri`
 
-
+#### Extra options example:
+```json
+{
+  "oAuthConfig": {
+    (...),
+    "redirectUri": "http://localhost:3000/exampleCallback",
+    "authorizationUri": "https://login.microsoftonline.com/44467e6f-462c-4ea2-823f-7800de5434e3/oauth2/v2.0/authorize",
+    "scope": "openid profile email offline_access",
+  },
+  "oAuthConfigs": []
+}
+```
