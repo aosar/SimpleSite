@@ -9,7 +9,9 @@ const fs = require('fs');
 const isVerbose = process.argv[2] === '-v' || process.argv[2] === '--verbose';
 const noCache = process.argv[2] === '-nc' || process.argv[2] === '--no-cache';
 
-const scope = oAuthConfig.scope || oAuthConfig.scopes.join(' ') || 'https://graph.microsoft.com/.default';
+// const scope = oAuthConfig.scope || oAuthConfig.scopes.join(' ') || 'https://graph.microsoft.com/.default';
+
+const scope = "https://archibusdev.fs.illinois.edu/shibboleth/.default";
 
 const clientCredentials = {
     client_id: oAuthConfig.clientId,
@@ -44,7 +46,7 @@ async function getTokenData() {
     } catch (e) {
       console.log(e);
     }
-    isVerbose && console.log(data);
+    // isVerbose && console.log(data);
     return data;
 }
 
@@ -53,10 +55,11 @@ async function getTokenData() {
     const response = await getTokenData();
 
     // Cache token or log to console
-    noCache ? fs.writeFileSync('access_token.json', response?.access_token || '')
-      : console.log(response?.access_token);
+    noCache ? console.log(response?.access_token)
+      : fs.writeFileSync('access_token.json', response?.access_token || '') ;
 
     if (isVerbose) {
+      console.log(`[DEBUG] Nocache: ${noCache}`);
       console.log(`[DEBUG] Raw access token (JWT)${oAuthConfig.name ? ` for ${oAuthConfig.name}` : ''}`);
       console.log(response);
 
